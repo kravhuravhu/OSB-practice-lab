@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con1="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config">
     <con:coreEntry>
         <con:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType">
             <con:wsdl ref="LoggingDemoProject/Interfaces/WSDLs/LoggingDemo"/>
@@ -12,5 +12,50 @@
             <con:snippetVersion>1.0</con:snippetVersion>
         </con:xqConfiguration>
     </con:coreEntry>
-    <con:router/>
+    <con:router>
+        <con:pipeline type="request" name="request-7f000101.N6502e91d.0.19b429fa6cf.N8000">
+            <con:stage id="_StageId-7f000101.N6502e91d.0.19b429fa6cf.N7ffe" name="RequestStateDemo" errorHandler="error-7f000101.N6502e91d.0.19b429fa6cf.N7ffc">
+                <con:comment>Handle all the incoming requests</con:comment>
+                <con:context/>
+                <con:actions>
+                    <con1:log>
+                        <con2:id>_ActionId-7f000101.N6502e91d.0.19b429fa6cf.N7ff8</con2:id>
+                        <con1:logLevel>warning</con1:logLevel>
+                        <con1:expr>
+                            <con2:xqueryText>$body</con2:xqueryText>
+                        </con1:expr>
+                        <con1:message>&lt;&lt;&lt; Request Log Message >>></con1:message>
+                    </con1:log>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="response" name="response-7f000101.N6502e91d.0.19b429fa6cf.N7fff">
+            <con:stage id="_StageId-7f000101.N6502e91d.0.19b429fa6cf.N7ffd" name="ResponseStageDemo">
+                <con:context/>
+                <con:actions/>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="error" name="error-7f000101.N6502e91d.0.19b429fa6cf.N7ffc">
+            <con:stage id="_StageId-7f000101.N6502e91d.0.19b429fa6cf.N7ffb" name="ErrorHandlerStage">
+                <con:comment>If there is ever an error on the request stage, the fault message will appear on this stage.</con:comment>
+                <con:context/>
+                <con:actions>
+                    <con1:log>
+                        <con2:id>_ActionId-7f000101.N6502e91d.0.19b429fa6cf.N7ff5</con2:id>
+                        <con1:logLevel>debug</con1:logLevel>
+                        <con1:expr>
+                            <con2:xqueryText>$fault</con2:xqueryText>
+                        </con1:expr>
+                        <con1:message>&lt;&lt;&lt; Fault Message >>></con1:message>
+                    </con1:log>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:flow>
+            <con:pipeline-node name="LoggingDemoPipelinePair">
+                <con:request>request-7f000101.N6502e91d.0.19b429fa6cf.N8000</con:request>
+                <con:response>response-7f000101.N6502e91d.0.19b429fa6cf.N7fff</con:response>
+            </con:pipeline-node>
+        </con:flow>
+    </con:router>
 </con:pipelineEntry>
