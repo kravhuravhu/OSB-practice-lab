@@ -1,0 +1,24 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<application xmlns:soa="http://www.oracle.com/soa/rest" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tns="http://xmlns.oracle.com/TransformationXML_JSON/XML_to_JSON/PersonData_DP_BS" xmlns="http://wadl.dev.java.net/2009/02">
+   <doc title="PersonData_DP_BS">RestReference</doc>
+   <grammars>
+      <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://TargetNamespace.com/PersonData_DP_BS_sendPersonData_request" schemaLocation="../Interfaces/Schemas/Target/request_nxsd_schema.xsd"/>
+        </xsd:schema>
+      <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://TargetNamespace.com/PersonData_DP_BS_sendPersonData_response" schemaLocation="../Interfaces/Schemas/Target/response_nxsd_schema.xsd"/>
+        </xsd:schema>
+   </grammars>
+   <resources>
+      <resource path="/api/person">
+         <method name="POST" soa:wsdlOperation="sendPersonData">
+            <request>
+               <representation mediaType="application/json" element="cns:PersonDataRequest" xmlns:cns="http://TargetNamespace.com/PersonData_DP_BS_sendPersonData_request"/>
+            </request>
+            <response status="200">
+               <representation mediaType="application/json" element="cns:Root-Element" xmlns:cns="http://TargetNamespace.com/PersonData_DP_BS_sendPersonData_response"/>
+            </response>
+         </method>
+      </resource>
+   </resources>
+</application>
