@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:pipelineEntry xmlns:con="http://www.bea.com/wli/sb/pipeline/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:con1="http://www.bea.com/wli/sb/stages/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config">
+    <con:coreEntry>
+        <con:binding type="SOAP" isSoap12="false" xsi:type="con:SoapBindingType">
+            <con:wsdl ref="PersonDataEBS/Interfaces/WSDLs/PersonDataEBS"/>
+            <con:binding>
+                <con:name>execute_bind</con:name>
+                <con:namespace>http://xmlns.oracle.com/PersonData/PersonDataEBS/PersonData</con:namespace>
+            </con:binding>
+        </con:binding>
+        <con:xqConfiguration>
+            <con:snippetVersion>1.0</con:snippetVersion>
+        </con:xqConfiguration>
+    </con:coreEntry>
+    <con:router errorHandler="error-7f000101.67bd5bf.0.19cae73f8e1.N7f4d">
+        <con:pipeline type="request" name="request-7f000101.67bd5bf.0.19cae73f8e1.N7fd0">
+            <con:stage id="_StageId-7f000101.67bd5bf.0.19cae73f8e1.N7fce" name="AssignVariables">
+                <con:context>
+                    <con1:userNsDecl prefix="per" namespace="http://demo/person"/>
+                </con:context>
+                <con:actions>
+                    <con2:assign varName="firstName">
+                        <con1:id>_ActionId-7f000101.67bd5bf.0.19cae73f8e1.N7fca</con1:id>
+                        <con2:expr>
+                            <con1:xqueryText>$body/per:PersonRequest/per:FirstName</con1:xqueryText>
+                        </con2:expr>
+                    </con2:assign>
+                    <con2:assign varName="lastName">
+                        <con1:id>_ActionId-7f000101.67bd5bf.0.19cae73f8e1.N7fc6</con1:id>
+                        <con2:expr>
+                            <con1:xqueryText>$body/per:PersonRequest/per:LastName</con1:xqueryText>
+                        </con2:expr>
+                    </con2:assign>
+                    <con2:assign varName="age">
+                        <con1:id>_ActionId-7f000101.67bd5bf.0.19cae73f8e1.N7fc2</con1:id>
+                        <con2:expr>
+                            <con1:xqueryText>$body/per:PersonRequest/per:Age</con1:xqueryText>
+                        </con2:expr>
+                    </con2:assign>
+                </con:actions>
+            </con:stage>
+            <con:stage id="_StageId-7f000101.67bd5bf.0.19cae73f8e1.N7e95" name="SchemaValidation" xmlns:con3="http://www.bea.com/wli/sb/stages/logging/config" xmlns:con2="http://www.bea.com/wli/sb/stages/config" xmlns:con4="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con1="http://www.bea.com/wli/sb/stages/transform/config">
+                <con:context>
+                    <con2:userNsDecl prefix="per" namespace="http://demo/person" xmlns:con5="http://www.bea.com/wli/sb/stages/config"/>
+                </con:context>
+                <con:actions>
+                    <con1:validate>
+                        <con5:id xmlns:con5="http://www.bea.com/wli/sb/stages/config">_ActionId-7f000101.67bd5bf.0.19cae73f8e1.N7e94</con5:id>
+                        <con1:schema ref="PersonDataEBS/Interfaces/Schemas/PersonDataEBS"/>
+                        <con1:schemaElement xmlns:per="http://demo/person">per:PersonRequest</con1:schemaElement>
+                        <con1:varName>body</con1:varName>
+                        <con1:location>
+                            <con2:xpathText xmlns:con5="http://www.bea.com/wli/sb/stages/config">./*:PersonRequest</con2:xpathText>
+                        </con1:location>
+                    </con1:validate>
+                </con:actions>
+            </con:stage>
+            <con:stage id="_StageId-7f000101.617dd24d.0.19cb8d28a37.N7cf6" name="ageValidation">
+                <con:context/>
+                <con:actions>
+                    <con2:ifThenElse>
+                        <con1:id>_ActionId-7f000101.617dd24d.0.19cb8d28a37.N7cf5</con1:id>
+                        <con2:case id="_BranchId-7f000101.617dd24d.0.19cb8d28a37.N7cf4">
+                            <con2:condition>
+                                <con1:xqueryText>$age &lt; 0 or $age > 120</con1:xqueryText>
+                            </con2:condition>
+                            <con2:actions>
+                                <con2:Error>
+                                    <con1:id>_ActionId-7f000101.617dd24d.0.19cb8d28a37.N7cf3</con1:id>
+                                    <con2:errCode>ageValidationCheck</con2:errCode>
+                                </con2:Error>
+                            </con2:actions>
+                        </con2:case>
+                        <con2:default/>
+                    </con2:ifThenElse>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="response" name="response-7f000101.67bd5bf.0.19cae73f8e1.N7fcf">
+            <con:stage id="_StageId-7f000101.617dd24d.0.19cb8d28a37.N7c5f" name="BusinessProcessResponse">
+                <con:context/>
+                <con:actions>
+                    <con2:replace varName="body">
+                        <con1:id>_ActionId-7f000101.617dd24d.0.19cb8d28a37.N7c5e</con1:id>
+                        <con2:location>
+                            <con1:xpathText>./*</con1:xpathText>
+                        </con2:location>
+                        <con2:expr>
+                            <con1:xqueryText><![CDATA[<PersonResponse xmlns="http://demo/person">
+         <Status>SUCCESS</Status>
+         <Message>Message successfully sent to JMS queue</Message>
+      </PersonResponse>]]></con1:xqueryText>
+                        </con2:expr>
+                    </con2:replace>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:pipeline type="error" name="error-7f000101.67bd5bf.0.19cae73f8e1.N7f4d">
+            <con:stage id="_StageId-7f000101.67bd5bf.0.19cae73f8e1.N7f4c" name="HandlerErrorConditions">
+                <con:context/>
+                <con:actions>
+                    <con2:ifThenElse>
+                        <con1:id>_ActionId-7f000101.67bd5bf.0.19cae73f8e1.N7f42</con1:id>
+                        <con2:case id="_BranchId-7f000101.67bd5bf.0.19cae73f8e1.N7f41">
+                            <con2:condition>
+                                <con1:xqueryText>fn:contains($fault, 'ageValidationCheck')</con1:xqueryText>
+                            </con2:condition>
+                            <con2:actions>
+                                <con2:replace varName="body">
+                                    <con1:id>_ActionId-7f000101.67bd5bf.0.19cae73f8e1.N7f3d</con1:id>
+                                    <con2:expr>
+                                        <con1:xqueryText><![CDATA[<PersonResponse xmlns="http://demo/person">
+   <Status>$fault/ctx:errorCode</Status>
+   <Message>$fault/ctx:reason</Message>
+   <details>$fault/ctx:details</details>
+</PersonResponse>]]></con1:xqueryText>
+                                    </con2:expr>
+                                </con2:replace>
+                            </con2:actions>
+                        </con2:case>
+                        <con2:default/>
+                    </con2:ifThenElse>
+                </con:actions>
+            </con:stage>
+        </con:pipeline>
+        <con:flow>
+            <con:pipeline-node name="PersonDataProcessing">
+                <con:request>request-7f000101.67bd5bf.0.19cae73f8e1.N7fd0</con:request>
+                <con:response>response-7f000101.67bd5bf.0.19cae73f8e1.N7fcf</con:response>
+            </con:pipeline-node>
+            <con:route-node name="RouteToJMSqueue">
+                <con:context/>
+                <con:actions>
+                    <con3:route>
+                        <con1:id>_ActionId-7f000101.59ba4fcb.0.19cbd196d02.N7ffe</con1:id>
+                        <con3:service ref="PersonDataEBS/Services/BusinessServices/PersonDataEBS_BS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con3:outboundTransform/>
+                        <con3:responseTransform/>
+                    </con3:route>
+                </con:actions>
+            </con:route-node>
+        </con:flow>
+    </con:router>
+</con:pipelineEntry>
