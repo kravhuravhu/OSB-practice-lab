@@ -13,11 +13,11 @@
         <dgm:operations/>
     </dgm:gService>
     <dgm:gReference name="PersonDataExtProvABCSREST_BS">
-        <dgm:body borderWidth="2" arcRad="20" X="958" Y="29" width="136" height="54">
+        <dgm:body borderWidth="2" arcRad="20" X="968" Y="41" width="136" height="54">
             <dgm:borderColor r="153" g="153" b="153"/>
             <dgm:bgColor r="255" g="255" b="255"/>
         </dgm:body>
-        <dgm:shadow arcRad="20" X="948" Y="22" width="156" height="68">
+        <dgm:shadow arcRad="20" X="958" Y="34" width="156" height="68">
             <dgm:bgColor r="196" g="228" b="240"/>
         </dgm:shadow>
         <dgm:inputPort name="PersonDataExtProvABCSREST_BS" X="-10" Y="0" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="SB Interface" callbackInterface="SB Interface"/>
@@ -25,19 +25,25 @@
         <dgm:operations/>
     </dgm:gReference>
     <dgm:gComponent name="PersonDataExtProvABCSREST_PL">
-        <dgm:body borderWidth="2" arcRad="20" X="493" Y="26" width="130" height="61">
+        <dgm:body borderWidth="2" arcRad="20" X="498" Y="26" width="130" height="61">
             <dgm:borderColor r="109" g="136" b="65"/>
             <dgm:lightBgColor r="201" g="224" b="155"/>
             <dgm:darkBgColor r="157" g="195" b="93"/>
         </dgm:body>
-        <dgm:shadow arcRad="20" X="483" Y="19" width="150" height="77">
+        <dgm:shadow arcRad="20" X="488" Y="19" width="150" height="77">
             <dgm:bgColor r="196" g="228" b="240"/>
         </dgm:shadow>
         <dgm:inputPort name="__service__" X="-10" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="SB Interface" callbackInterface="SB Interface"/>
+        <dgm:outputPort name="businessservice.-229816304.PersonDataExtProvABCSREST_BS" X="120" Y="15" diameter="20" imageURI="oracle/tip/tools/ide/fabric/resource/image/visuals_rd1/servicereference.png" interface="SB Interface" callbackInterface="SB Interface"/>
         <dgm:nodeIcon URI="/oracle/sb/tooling/ide/sca/internal/icons/icon_pipeline_20x20.gif" X="10" Y="4" width="20" height="20"/>
     </dgm:gComponent>
     <dgm:gWireLink source="PersonDataExtProvABCSREST_PS" target="PersonDataExtProvABCSREST_PL/__service__" width="2">
-        <dgm:gSegment X1="168" Y1="51" X2="483" Y2="51"/>
+        <dgm:gSegment X1="168" Y1="51" X2="488" Y2="51"/>
+        <dgm:baseColor r="153" g="153" b="153"/>
+        <dgm:selectedColor r="49" g="106" b="196"/>
+    </dgm:gWireLink>
+    <dgm:gWireLink source="PersonDataExtProvABCSREST_PL/businessservice.-229816304.PersonDataExtProvABCSREST_BS" target="PersonDataExtProvABCSREST_BS" width="2">
+        <dgm:gSegment X1="638" Y1="51" X2="958" Y2="51"/>
         <dgm:baseColor r="153" g="153" b="153"/>
         <dgm:selectedColor r="49" g="106" b="196"/>
     </dgm:gWireLink>
