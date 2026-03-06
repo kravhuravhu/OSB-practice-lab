@@ -74,6 +74,9 @@
                 <con:actions>
                     <con3:replace varName="body">
                         <con2:id>_ActionId-7f000101.228bcc59.0.19cbdbe0da7.N7790</con2:id>
+                        <con3:location>
+                            <con2:xpathText>$body/*[1]</con2:xpathText>
+                        </con3:location>
                         <con3:expr>
                             <con2:xsltTransform>
                                 <con2:resource ref="PersonDataExtProvABCSREST/Transformations/conversion_mapping_json"/>
@@ -96,7 +99,7 @@
                         <con2:expr>
                             <con1:xqueryText><![CDATA[<PersonResponse xmlns="http://demo/person">
          <Status>SUCCESS</Status>
-         <Message>Message successfully sent to JMS queue</Message>
+         <Message>Message successfully sent to DataPower</Message>
       </PersonResponse>]]></con1:xqueryText>
                         </con2:expr>
                     </con2:replace>

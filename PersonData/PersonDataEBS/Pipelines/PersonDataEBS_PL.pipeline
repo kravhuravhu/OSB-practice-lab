@@ -80,7 +80,7 @@
             <con:stage id="_StageId-7f000101.617dd24d.0.19cb8d28a37.N7c5f" name="BusinessProcessResponse">
                 <con:context/>
                 <con:actions>
-                    <con2:replace varName="body">
+                    <con2:replace varName="body" contents-only="false">
                         <con1:id>_ActionId-7f000101.617dd24d.0.19cb8d28a37.N7c5e</con1:id>
                         <con2:location>
                             <con1:xpathText>./*</con1:xpathText>
