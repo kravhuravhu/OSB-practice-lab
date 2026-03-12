@@ -8,6 +8,19 @@
     </con:coreEntry>
     <con:router errorHandler="error-7f000101.228bcc59.0.19cbdbe0da7.N78ca">
         <con:pipeline type="request" name="request-7f000101.228bcc59.0.19cbdbe0da7.N7aa8">
+            <con:stage id="_StageId-7f000101.N439c6475.0.19cc2cda954.N7fc6" name="Stage1">
+                <con:context/>
+                <con:actions>
+                    <con4:log>
+                        <con2:id>_ActionId-7f000101.N439c6475.0.19cc2cda954.N7fc5</con2:id>
+                        <con4:logLevel>warning</con4:logLevel>
+                        <con4:expr>
+                            <con2:xqueryText>$body</con2:xqueryText>
+                        </con4:expr>
+                        <con4:message>&lt;&lt; message from JMS >></con4:message>
+                    </con4:log>
+                </con:actions>
+            </con:stage>
             <con:stage id="_StageId-7f000101.228bcc59.0.19cbdbe0da7.N7a0b" name="AssignVariables" xmlns:con3="http://www.bea.com/wli/sb/stages/routing/config" xmlns:con2="http://www.bea.com/wli/sb/stages/transform/config" xmlns:con1="http://www.bea.com/wli/sb/stages/config">
                 <con:context>
                     <con1:userNsDecl prefix="per" namespace="http://demo/person"/>
@@ -144,7 +157,7 @@
                 <con:actions>
                     <con1:route>
                         <con2:id>_ActionId-7f000101.228bcc59.0.19cbdbe0da7.N78cb</con2:id>
-                        <con1:service ref="PersonDataExtProvABCSREST/PersonDataExtProvABCSREST_BS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
+                        <con1:service ref="PersonDataExtProvABCSREST/Services/BusinessServices/PersonDataExtProvABCSREST_BS" xsi:type="ref:BusinessServiceRef" xmlns:ref="http://www.bea.com/wli/sb/reference"/>
                         <con1:operation>submitOperationData</con1:operation>
                         <con1:outboundTransform>
                             <con4:log>
