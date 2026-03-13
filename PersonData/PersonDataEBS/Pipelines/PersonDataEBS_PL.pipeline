@@ -78,19 +78,6 @@
             </con:stage>
         </con:pipeline>
         <con:pipeline type="response" name="response-7f000101.67bd5bf.0.19cae73f8e1.N7fcf">
-            <con:stage id="_StageId-7f000101.N439c6475.0.19cc2cda954.N7ffe" name="Stage1">
-                <con:context/>
-                <con:actions>
-                    <con4:log>
-                        <con1:id>_ActionId-7f000101.N439c6475.0.19cc2cda954.N7ffd</con1:id>
-                        <con4:logLevel>warning</con4:logLevel>
-                        <con4:expr>
-                            <con1:xqueryText>./$body</con1:xqueryText>
-                        </con4:expr>
-                        <con4:message>&lt;&lt; testing >></con4:message>
-                    </con4:log>
-                </con:actions>
-            </con:stage>
             <con:stage id="_StageId-7f000101.617dd24d.0.19cb8d28a37.N7c5f" name="BusinessProcessResponse">
                 <con:context/>
                 <con:actions>
@@ -109,34 +96,7 @@
                 </con:actions>
             </con:stage>
         </con:pipeline>
-        <con:pipeline type="error" name="error-7f000101.67bd5bf.0.19cae73f8e1.N7f4d">
-            <con:stage id="_StageId-7f000101.67bd5bf.0.19cae73f8e1.N7f4c" name="HandlerErrorConditions">
-                <con:context/>
-                <con:actions>
-                    <con2:ifThenElse>
-                        <con1:id>_ActionId-7f000101.67bd5bf.0.19cae73f8e1.N7f42</con1:id>
-                        <con2:case id="_BranchId-7f000101.67bd5bf.0.19cae73f8e1.N7f41">
-                            <con2:condition>
-                                <con1:xqueryText>fn:contains($fault, 'ageValidationCheck')</con1:xqueryText>
-                            </con2:condition>
-                            <con2:actions>
-                                <con2:replace varName="body">
-                                    <con1:id>_ActionId-7f000101.67bd5bf.0.19cae73f8e1.N7f3d</con1:id>
-                                    <con2:expr>
-                                        <con1:xqueryText><![CDATA[<PersonResponse xmlns="http://demo/person">
-   <Status>$fault/ctx:errorCode</Status>
-   <Message>$fault/ctx:reason</Message>
-   <details>$fault/ctx:details</details>
-</PersonResponse>]]></con1:xqueryText>
-                                    </con2:expr>
-                                </con2:replace>
-                            </con2:actions>
-                        </con2:case>
-                        <con2:default/>
-                    </con2:ifThenElse>
-                </con:actions>
-            </con:stage>
-        </con:pipeline>
+        <con:pipeline type="error" name="error-7f000101.67bd5bf.0.19cae73f8e1.N7f4d"></con:pipeline>
         <con:flow>
             <con:pipeline-node name="PersonDataProcessing">
                 <con:request>request-7f000101.67bd5bf.0.19cae73f8e1.N7fd0</con:request>
