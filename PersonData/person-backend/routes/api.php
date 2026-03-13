@@ -6,6 +6,15 @@ use Illuminate\Support\Facades\Storage;
 
 Route::post('/person', function (Request $request) {
 
+
+	$apiKey = $request->header('X-API-KEY');
+
+    if ($apiKey !== env('API_KEY')) {
+        return response()->json([
+            'error' => 'Unauthorized'
+        ], 401);
+    }
+
     $data = $request->json()->all();
 
     $response = [
