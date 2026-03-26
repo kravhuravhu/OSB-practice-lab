@@ -1,0 +1,20 @@
+<wsdl:definitions name="queueErrorBS" targetNamespace="http://icoe.eskom.co.za/ConnectivityServices/AuditError/queueErrorBS/V1" xmlns:eabs="http://icoe.eskom.co.za/ConnectivityServices/AuditError/queueErrorBS/V1" xmlns:jca="http://xmlns.oracle.com/pcbpel/wsdl/jca/" xmlns:plt="http://schemas.xmlsoap.org/ws/2003/05/partner-link/" xmlns:ea="http://ws.publish.erroraudit.icc.eskom.co.za/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <plt:partnerLinkType name="ProduceErrorMessage_plt">
+    <plt:role name="ProduceErrorMessage_role">
+      <plt:portType name="eabs:ProduceErrorMessage_ptt"/>
+    </plt:role>
+  </plt:partnerLinkType>
+  <wsdl:types>
+    <schema xmlns="http://www.w3.org/2001/XMLSchema">
+      <import namespace="http://ws.publish.erroraudit.icc.eskom.co.za/" schemaLocation="../../../Metadata/xsds/ErrorAudit_v5.0.xsd"/>
+    </schema>
+  </wsdl:types>
+  <wsdl:message name="ProduceErrorRequest">
+    <wsdl:part name="body" element="ea:ErrorLogRequest"/>
+  </wsdl:message>
+  <wsdl:portType name="ProduceErrorMessage_ptt">
+    <wsdl:operation name="produceErrorMessage">
+      <wsdl:input message="eabs:ProduceErrorRequest"/>
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

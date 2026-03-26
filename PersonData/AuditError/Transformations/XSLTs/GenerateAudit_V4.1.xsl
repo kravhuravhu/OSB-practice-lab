@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Document   : AuditTemplate.xsl
+    Created on : 4 August 2015, 4:24 PM
+    Author     : SBadat
+    Description:
+    Purpose of transformation follows.
+-->
+<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:date="http://exslt.org/dates-and-times"
+    xmlns:fn-bea="http://www.bea.com/xquery/xquery-functions"
+    xmlns:fn="http://www.w3.org/2005/xpath-functions"
+    xmlns="http://ws.publish.erroraudit.icc.eskom.co.za/">
+    <xsl:param name="msg" select="''"/>
+    <xsl:param name="transID" select="''"/>
+    <xsl:param name="busKeyName" select="'test1,2,3'"/>
+    <xsl:param name="busKeyValue" select="'val4,5,6'"/>
+    <xsl:param name="componentName" select="''"/>
+    <xsl:param name="description" select="''"/>
+    <xsl:param name="sourceTimeStamp" select="''"/>
+    <xsl:param name="messageUID" select="''"/>
+    <xsl:param name="appServerID" select="''"/>
+    <xsl:param name="environment" select="''"/>
+    <xsl:param name="auditType" select="''"/>
+    <xsl:output method="xml" encoding="UTF-8"/>
+    <xsl:template match="/">
+<!--        <xsl:variable name="busKeyNames" select="tokenize($busKeyName,',')"/>
+        <xsl:variable name="busKeyValues" select="tokenize($busKeyValue,',')"/>
+-->
+        <AuditLogRequest>
+            <messageUID>
+                <xsl:value-of select="$messageUID"/>
+            </messageUID>
+            <transactionId>
+                <xsl:value-of select="$transID"/>
+            </transactionId>
+            <componentName>
+                <xsl:value-of select="$componentName"/>
+            </componentName>
+            <!--Optional:-->
+            <applicationServerId>
+                <xsl:value-of select="$appServerID"/>
+            </applicationServerId>
+            <!--Optional:-->
+            <businessKeys>
+                <xsl:call-template name="tokenize">
+                    <xsl:with-param name="text1" select="$busKeyName"/>
+                    <xsl:with-param name="text2" select="$busKeyValue"/>
+                </xsl:call-template>
+                <!--                <xsl:for-each select="$busKeyNames">
+                    <businessKey>
+                        <keyName>
+                            <xsl:value-of select="."/>
+                        </keyName>
+                        <xsl:variable name="vPos" select="position()"/>
+                        <keyValue>
+                            <xsl:value-of select="$busKeyValues[$vPos+0]"/>
+                        </keyValue>
+                    </businessKey>            
+                </xsl:for-each>        
+-->
+                <!--                
+                <businessKey>
+                    <keyName>
+                        <xsl:value-of select="$busKeyName"/>
+                    </keyName>
+                    <keyValue>
+                        <xsl:value-of select="$busKeyValue"/>
+                    </keyValue>
+                </businessKey>
+            </businessKeys>
+-->
+            </businessKeys>
+            <!--Optional:-->
+            <description>
+                <xsl:value-of select="$description"/>
+            </description>
+            <!--Optional:-->
+            <txnSourceCreateTimestamp>
+                <xsl:value-of select="$sourceTimeStamp"/>
+            </txnSourceCreateTimestamp>
+            <xsl:if test="upper-case($auditType) = 'START'">
+                <startTimestamp>
+                    <xsl:value-of select="current-dateTime()"/>
+                </startTimestamp>
+            </xsl:if>
+            <xsl:if test="upper-case($auditType) = 'END'">
+                <endTimestamp>
+                    <xsl:value-of select="current-dateTime()"/>
+                </endTimestamp>
+            </xsl:if>
+            <!--Optional:-->
+            <message>
+                <xsl:text disable-output-escaping="yes">&lt;![CDATA[</xsl:text>
+                <xsl:copy-of select="$msg"/>
+                <xsl:text disable-output-escaping="yes">]]&gt;</xsl:text>
+                <!--<xsl:value-of select="$msg"/>-->
+            </message>
+            <environment>
+                <xsl:value-of select="$environment"/>
+            </environment>
+            <auditType>
+                <xsl:value-of select="$auditType"/>
+            </auditType>
+        </AuditLogRequest>
+    </xsl:template>
+
+    <xsl:template match="string/text()" name="tokenize">
+        <xsl:param name="text1" select="."/>
+        <xsl:param name="sep1" select="','"/>
+        <xsl:param name="text2" select="."/>
+
+        <xsl:choose>
+            <xsl:when test="not(contains($text1, $sep1))">
+                <businessKey>
+                    <keyName>
+                        <xsl:value-of select="normalize-space($text1)"/>
+                    </keyName>
+                    <keyValue>
+                        <xsl:value-of select="normalize-space($text2)"/>
+                    </keyValue>
+                </businessKey>
+            </xsl:when>
+            <xsl:otherwise>
+                <businessKey>
+                    <keyName>
+                        <xsl:value-of select="normalize-space(substring-before($text1, $sep1))"/>
+                    </keyName>
+                    <keyValue>
+                        <xsl:value-of select="normalize-space(substring-before($text2, $sep1))"/>
+                    </keyValue>
+                </businessKey>
+                <xsl:call-template name="tokenize">
+                    <xsl:with-param name="text1" select="substring-after($text1, $sep1)"/>
+                    <xsl:with-param name="text2" select="substring-after($text2, $sep1)"/>
+                </xsl:call-template>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+</xsl:stylesheet>

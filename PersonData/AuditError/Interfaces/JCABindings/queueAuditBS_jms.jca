@@ -1,0 +1,13 @@
+<adapter-config name="queueAuditBS" adapter="jms" wsdlLocation="../WSDL/queueAuditBS.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  
+  <connection-factory location="eis/wls/Queue" UIJmsProvider="WLSJMS" UIConnectionName="IntegratedWebLogicServer"/>
+  <endpoint-interaction portType="ProduceAuditMessage_ptt" operation="produceAuditMessage">
+    <interaction-spec className="oracle.tip.adapter.jms.outbound.JmsProduceInteractionSpec">
+      <property name="TimeToLive" value="0"/>
+      <property name="PayloadType" value="TextMessage"/>
+      <property name="DeliveryMode" value="Persistent"/>
+      <property name="DestinationName" value="jms/queue/Auditors"/>
+    </interaction-spec>
+  </endpoint-interaction>
+
+</adapter-config>

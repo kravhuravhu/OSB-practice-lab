@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2011 (x64) (http://www.altova.com) by Reginald Oertel (Ru-Board) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://persondata.org/auditerror/"
+           targetNamespace="http://persondata.org/auditerror/" elementFormDefault="qualified" version="3.1">
+  <xs:element name="IllegalArgumentException" type="tns:IllegalArgumentException"></xs:element>
+  <xs:element name="AuditLogResponse" type="tns:AuditLogResponse"/>
+  <xs:element name="ErrorLogResponse" type="tns:ErrorLogResponse"/>
+  <xs:element name="AuditLogRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <!-- Message UID:							Uniquely identify the message -->
+        <!-- 										Compulsory, limited to min 25 ; max 50 chars -->
+        <xs:element name="messageUID" type="xs:string" nillable="false"/>
+        <!-- Transaction ID:				Should uniquely identify the transaction -->
+        <!-- 										Compulsory, limited to max 50chars -->
+        <xs:element name="transactionId" type="xs:string" nillable="false"/>
+        <!-- Component Name:			Should uniquely identify the code component where this message originates from -->
+        <!-- 										Compulsory, limited to min 25 ; max 50 chars -->
+        <xs:element name="componentName" type="xs:string" nillable="false"/>
+        <!-- App server ID:					Should uniquely identify the application server where this message originates from -->
+        <!-- 										Not compulsory, limited to max 50 chars -->
+        <xs:element name="applicationServerId" type="xs:string" minOccurs="0"/>
+        <!-- Business Keys: 				Additional identifiers for this transaction (like WorkOrder numbers) -->
+        <!-- 										Not compulsory, if provided then Key Name and Key Value are both compulsory -->
+        <xs:element name="businessKeys" type="tns:BusinessKeys" minOccurs="0"/>
+        <!-- Description:						A short, free-text description of the audit entry -->
+        <!-- 										Not compulsory, limited by db field length but not enforced -->
+        <xs:element name="description" type="xs:string" minOccurs="0"/>
+        <!-- Transaction Source Create Timestamp:	The timestamp when the message was produced by the source of the transaction (not when the message was received by the consumer)
+															(Source of the transaction is the very first system / application where the transaction originates from) -->
+        <!-- 										Not compulsory -->
+        <xs:element name="txnSourceCreateTimestamp" type="xs:dateTime" minOccurs="0"/>
+        <!-- Start Audit / End Audit:	Start Audit explicitly indicates the start of the processing by a component
+															End Audit explictily indicates the end of the processing by a component -->
+        <!-- 										Compulsory to include ONE of the two -->
+        <xs:element name="startTimestamp" type="xs:dateTime" nillable="true"/>
+        <xs:element name="endTimestamp" type="xs:dateTime" nillable="true"/>
+        <!-- Message:						Contains the XML message that the component is busy processing not compulsory -->
+        <!-- 										Not compulsory, no limit -->
+        <xs:element name="message" type="xs:string" minOccurs="0"/>
+        <xs:element name="environment" type="tns:Environment"/>
+        <xs:element name="auditType">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="START"/>
+              <xs:enumeration value="END"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="ErrorLogRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <!-- Message UID:							Uniquely identify the message -->
+        <!-- 										Compulsory, limited to min 25 ; max 50 chars -->
+        <xs:element name="messageUID" type="xs:string" nillable="false"/>
+        <!-- Transaction ID:				Should uniquely identify the transaction -->
+        <!-- 										Compulsory, limited to max 50chars -->
+        <xs:element name="transactionId" type="xs:string" nillable="false"/>
+        <!-- Component Name:			Should uniquely identify the code component where this message originates from -->
+        <!-- 										Compulsory, limited to min 25 ; max 50 chars -->
+        <xs:element name="componentName" type="xs:string" nillable="false"/>
+        <!-- App server ID:					Should uniquely identify the application server where this message originates from -->
+        <!-- 										Not compulsory, limited to max 50 chars -->
+        <xs:element name="applicationServerId" type="xs:string" minOccurs="0"/>
+        <!-- Business Keys: 				Additional identifiers for this transaction (like WorkOrder numbers) -->
+        <!-- 										Not compulsory, if provided then Key Name and Key Value are both compulsory -->
+        <xs:element name="businessKeys" type="tns:BusinessKeys" minOccurs="0"/>
+        <!-- Description:						A short, free-text description of the error entry -->
+        <!-- 										Not compulsory, limited by db field length but not enforced -->
+        <xs:element name="description" type="xs:string" minOccurs="0"/>
+        <!-- Transaction Source Create Timestamp:	The timestamp when the message was produced by the source (not when the message was received by the consumer) -->
+        <!-- 										Not compulsory -->
+        <xs:element name="txnSourceCreateTimestamp" type="xs:dateTime" minOccurs="0"/>
+        <!-- Exception:						The actual error message as it was produces in the code -->
+        <!--										Not compulsory, no limit -->
+        <xs:element name="exception" type="xs:string" minOccurs="0"/>
+        <!-- Criticality:						An indication of the severity of the error -->
+        <!--										Compulsory, limited to values 'high', 'medium', 'low' or 'warning'
+                                                            warning:    for information only, no action required
+															low:		error is not critical and can be investigated at a later stage
+															medium:     error is serious and should be investigated soon (next morning, if error occurs at night)
+															high:		error is critical and must be resolved ASAP, minimum SLA is appliable (drop everything) -->
+        <xs:element name="criticality" type="tns:CriticalityType" nillable="false"/>
+        <!-- Category:                          The category of the area responsible for the error or the nature of the error -->
+        <!--									Compulsory, limited to values 'integration', 'application' or 'infrastructure' -->
+        <xs:element name="category" type="tns:Category" nillable="false"/>
+        <!-- Timestamp:						Indicates the time when the error accured -->
+        <!--										Compulsory -->
+        <xs:element name="timestamp" type="xs:dateTime" nillable="false"/>
+        <!-- Message:						Contains the XML message that the component is busy processing not compulsory -->
+        <!-- 										Not compulsory, no limit -->
+        <xs:element name="message" type="xs:string" minOccurs="0"/>
+        <xs:element name="environment" type="tns:Environment"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:complexType name="AuditLogResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="ErrorLogResponse">
+    <xs:sequence/>
+  </xs:complexType>
+  <xs:complexType name="IllegalArgumentException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="BusinessKeys">
+    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="businessKey" type="tns:BusinessKey"/>
+    </xs:sequence>
+    <!-- Business Key not compulsory, unlimited multiples allows -->
+  </xs:complexType>
+  <xs:complexType name="BusinessKey">
+    <xs:sequence>
+      <!-- Key Name is compulsory -->
+      <xs:element name="keyName" type="xs:string" nillable="false"/>
+      <!-- Key Value is compulsory -->
+      <xs:element name="keyValue" type="xs:string" nillable="false"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="StartAudit">
+    <xs:sequence>
+      <!-- Start Timestamp is compulsory -->
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="EndAudit">
+    <xs:sequence>
+      <!-- Start Timestamp is compulsory -->
+      <xs:element name="startTimestamp" type="xs:dateTime" nillable="false"/>
+      <!-- End Timestamp is compulsory -->
+    </xs:sequence>
+  </xs:complexType>
+  <xs:simpleType name="CriticalityType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="high"/>
+      <xs:enumeration value="medium"/>
+      <xs:enumeration value="low"/>
+      <xs:enumeration value="warning"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Category">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="BusinessError"/>
+      <xs:enumeration value="TechnicalError"/>
+      <xs:enumeration value="OtherError"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="Environment">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="DEVELOPMENT"/>
+      <xs:enumeration value="TESTING-QA"/>
+      <xs:enumeration value="SIT"/>
+      <xs:enumeration value="UAT"/>
+      <xs:enumeration value="PRE-PRODUCTION"/>
+      <xs:enumeration value="PRODUCTION"/>
+      <xs:enumeration value="DR"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
