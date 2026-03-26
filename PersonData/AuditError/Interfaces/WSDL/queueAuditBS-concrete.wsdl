@@ -1,0 +1,12 @@
+<wsdl:definitions targetNamespace="http://icoe.eskom.co.za/ConnectivityServices/AuditError/queueAuditBS/V1" name="queueAuditBS-concrete" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:import location="queueAuditBS.wsdl" namespace="http://icoe.eskom.co.za/ConnectivityServices/AuditError/queueAuditBS/V1"/>
+  <wsdl:binding name="ProduceAuditMessage_ptt-binding" type="que:ProduceAuditMessage_ptt" xmlns:que="http://icoe.eskom.co.za/ConnectivityServices/AuditError/queueAuditBS/V1">
+    <soap:binding style="document" transport="http://www.bea.com/wli/sb/transports/jca"/>
+    <wsdl:operation name="produceAuditMessage">
+      <soap:operation soapAction="produceAuditMessage"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+</wsdl:definitions>

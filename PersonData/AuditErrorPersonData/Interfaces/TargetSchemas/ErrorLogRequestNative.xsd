@@ -1,0 +1,33 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://persondata.org/auditerror" targetNamespace="http://persondata.org/auditerror" elementFormDefault="qualified" xmlns:nxsd="http://xmlns.oracle.com/pcbpel/nxsd" nxsd:version="JSON" nxsd:encoding="UTF-8">
+   <xsd:element name="ErrorLogRequest">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="messageUID" type="xsd:string"/>
+            <xsd:element name="transactionId" type="xsd:string"/>
+            <xsd:element name="componentName" type="xsd:string"/>
+            <xsd:element name="applicationServerId" type="xsd:string"/>
+            <xsd:element name="businessKeys">
+               <xsd:complexType>
+                  <xsd:sequence>
+                     <xsd:element name="keyName" type="xsd:string"/>
+                     <xsd:element name="keyValue" type="xsd:string"/>
+                  </xsd:sequence>
+               </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="description" type="xsd:string"/>
+            <xsd:element name="txnSourceCreateTimestamp" type="xsd:string"/>
+            <xsd:element name="exception" type="xsd:string"/>
+            <xsd:element name="criticality" type="xsd:string"/>
+            <xsd:element name="category" type="xsd:string"/>
+            <xsd:element name="timestamp" type="xsd:string"/>
+            <xsd:element name="message" type="xsd:string"/>
+            <xsd:element name="environment" type="xsd:string"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+<xsd:annotation xmlns="">
+      <xsd:appinfo>NXSDSAMPLE=</xsd:appinfo>
+      <xsd:appinfo>USEHEADER=false</xsd:appinfo>
+   </xsd:annotation>
+</xsd:schema>

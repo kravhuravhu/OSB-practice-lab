@@ -1,0 +1,11 @@
+<adapter-config name="queueErrorBS" adapter="jms" wsdlLocation="../WSDL/queueErrorBS.wsdl" xmlns="http://platform.integration.oracle/blocks/adapter/fw/metadata">
+  <connection-factory location="eis/jms/AuditError" UIJmsProvider="WLSJMS" UIConnectionName="IntegratedWebLogicServer"/>
+  <endpoint-interaction portType="ProduceErrorMessage_ptt" operation="produceErrorMessage">
+    <interaction-spec className="oracle.tip.adapter.jms.outbound.JmsProduceInteractionSpec">
+      <property name="TimeToLive" value="0"/>
+      <property name="PayloadType" value="TextMessage"/>
+      <property name="DeliveryMode" value="Persistent"/>
+      <property name="DestinationName" value="jms/queue/Errors"/>
+    </interaction-spec>
+  </endpoint-interaction>
+</adapter-config>

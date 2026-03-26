@@ -11,7 +11,9 @@
 
     <modules>
         <module>System</module>
-        <module>PersonDataExtProvABCSREST</module>
+        <module>AuditErrorPersonData</module>
+        <module>Metadata</module>
+        <module>AuditError</module>
     </modules>
 
 </project>

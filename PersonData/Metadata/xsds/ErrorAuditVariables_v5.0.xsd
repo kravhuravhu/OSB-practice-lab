@@ -1,0 +1,65 @@
+<!--ErrorAuditVariables_v5.0.xsd-->
+<xs:schema targetNamespace="http://persondata.org/auditerror/" elementFormDefault="qualified" version="3.1" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns2="http://persondata.org/auditerror/" xmlns:tns="http://persondata.org/auditerror/">
+           
+  <xs:import schemaLocation="ErrorAudit.xsd" namespace="http://persondata.org/auditerror/"/>    
+  
+  <xs:element name="AuditErrorVariables">
+    <xs:complexType>
+      <xs:sequence>
+        <!-- Message UID:							Uniquely identify the message -->
+        <!-- 										Compulsory, limited to min 25 ; max 50 chars -->
+        <xs:element name="messageUID" type="xs:string" nillable="false"/>
+        <!-- Transaction ID:				Should uniquely identify the transaction -->
+        <!-- 										Compulsory, limited to max 50chars -->
+        <xs:element name="transactionId" type="xs:string" nillable="false"/>
+        <!-- Component Name:			Should uniquely identify the code component where this message originates from -->
+        <!-- 										Compulsory, limited to min 25 ; max 50 chars -->
+        <xs:element name="componentName" type="xs:string" nillable="false"/>
+        <!-- App server ID:					Should uniquely identify the application server where this message originates from -->
+        <!-- 										Not compulsory, limited to max 50 chars -->
+        <xs:element name="applicationServerId" type="xs:string" minOccurs="0"/>
+        <!-- Business Keys: 				Additional identifiers for this transaction (like WorkOrder numbers) -->
+        <!-- 										Not compulsory, if provided then Key Name and Key Value are both compulsory -->
+        <xs:element name="businessKeys" type="tns:BusinessKeys" minOccurs="0"/>
+        <!-- Description:						A short, free-text description of the audit entry -->
+        <!-- 										Not compulsory, limited by db field length but not enforced -->
+        <xs:element name="startAuditDescription" type="xs:string" minOccurs="0"/>
+        <!-- Description:						A short, free-text description of the audit entry -->
+        <!-- 										Not compulsory, limited by db field length but not enforced -->
+        <xs:element name="endAuditDescription" type="xs:string" minOccurs="0"/>
+        <!-- Description:						A short, free-text description of the audit entry -->
+        <!-- 										Not compulsory, limited by db field length but not enforced -->
+        <xs:element name="errorDescription" type="xs:string" minOccurs="0"/>        
+        <!-- Transaction Source Create Timestamp:	The timestamp when the message was produced by the source of the transaction (not when the message was received by the consumer)
+															(Source of the transaction is the very first system / application where the transaction originates from) -->
+        <!-- 										Not compulsory -->
+        <xs:element name="txnSourceCreateTimestamp" type="xs:dateTime" minOccurs="0"/>
+        <!-- Start Audit / End Audit:	Start Audit explicitly indicates the start of the processing by a component
+															End Audit explictily indicates the end of the processing by a component -->
+        <!-- 										Compulsory to include ONE of the two -->
+        <xs:element name="startTimestamp" type="xs:dateTime" nillable="true"/>
+        <xs:element name="endTimestamp" type="xs:dateTime" nillable="true"/>
+        <!-- Message:						Contains the XML message that the component is busy processing not compulsory -->
+        <!-- 										Not compulsory, no limit -->
+        <xs:element name="inputMessage" type="xs:string" minOccurs="0"/>
+        <xs:element name="environment" type="tns:Environment"/>
+
+        <!-- Criticality:						An indication of the severity of the error -->
+        <!--										Compulsory, limited to values 'high', 'medium', 'low' or 'warning'
+                                                            warning:    for information only, no action required
+															low:		error is not critical and can be investigated at a later stage
+															medium:     error is serious and should be investigated soon (next morning, if error occurs at night)
+															high:		error is critical and must be resolved ASAP, minimum SLA is appliable (drop everything) -->
+        <xs:element name="errorCriticality" type="tns:CriticalityType" nillable="false"/>
+        <xs:element name="serviceOperation" type="xs:string" minOccurs="0"/>
+        <xs:element name="messageName" type="xs:string" minOccurs="0"/>
+        <xs:element name="sourceApplication" type="xs:string" minOccurs="0"/>
+        <xs:element name="targetSystems" type="xs:string" minOccurs="0"/>
+        <xs:element name="callerComponent" type="xs:string" minOccurs="0"/>
+    
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+
+</xs:schema>
